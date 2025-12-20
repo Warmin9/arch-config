@@ -1,0 +1,129 @@
+{
+  "layer": "bottom",
+  "position": "top",
+  "height": 42,
+  "spacing": 2,
+  "exclusive": true,
+  "gtk-layer-shell": true,
+  "passthrough": false,
+  "fixed-center": true,
+  "modules-left": ["niri/workspaces","custom/launcher", "niri/window"],
+  "modules-center": ["clock#date", "clock#time"],
+  "modules-right": [
+    "cpu",
+    "memory",
+    "pulseaudio",
+    "tray",
+    "custom/screenshot",
+    "custom/notification",
+    "custom/power"
+  ],
+
+
+  "niri/workspaces": {
+    "on-click": "niri msg workspace activate --index {}",
+    "format": "{}",
+    "active-only": false,
+    "swap-icon-label": false
+  },
+  "niri/window": {
+    "format": "{title}",
+    "swap-icon-label": false
+  },
+  
+  "tray": {
+  "show-passive-items": true,
+  "spacing": 10,
+  "icon-size": 16,
+  "reverse-direction": false
+},
+  
+  "clock": {
+    "format": " {:%a %d %b}",
+    "format-alt": " {:%H:%M}",
+    "tooltip-format": "<tt><b>{calendar}</b></tt>",
+    "calendar": {
+      "format": {
+        "header": "<span color='#f9e2af'><b>{}</b></span>",
+        "months": "<span color='#cdd6f4'><b>{}</b></span>",
+        "days": "<span color='#cdd6f4'>{}</span>",
+        "today": "<span color='#f38ba8'><b><u>{}</u></b></span>",
+        "weekdays": "<span color='#f9e2af'><b>{}</b></span>",
+        "week-numbers": "<span color='#a6e3a1'><b>W{}</b></span>"
+      },
+      "mode": "month",
+      "on-scroll": 1
+    }
+  },
+
+  "clock#date": {
+  "format": " {:%m/%d}",
+  "tooltip": false
+},
+"clock#time": {
+  "format": " {:%H:%M}",
+  "interval": 1,
+  "tooltip": false
+},
+  
+  "cpu": {
+    "format": " {usage}%",
+    "tooltip": true,
+    "interval": 1
+  },
+  "memory": {
+    "format": " {used:0.1f}Gi"
+  },
+  "pulseaudio": {
+    "format": "{icon} {volume}%",
+    "format-muted": "  muted",
+    "format-icons": {
+      "headphone": "",
+      "default": [" ", " ", " "]
+    },
+    "on-click": "pavucontrol"
+  },
+  "custom/sep": {
+    "format": "|",
+    "tooltip": false
+  },
+  "custom/power": {
+    "tooltip": false,
+    "on-click": "wlogout -p layer-shell &",
+    "format": "⏻"
+  },
+  "custom/notification": {
+    "escape": true,
+    "exec": "swaync-client -swb",
+    "exec-if": "which swaync-client",
+    "format": "{icon}",
+    "format-icons": {
+      "none": "󰅺",
+      "notification": "󰡟"
+    },
+    "on-click": "sleep 0.1 && swaync-client -t -sw",
+    "return-type": "json",
+    "tooltip": false
+  },
+
+  "custom/screenshot": {
+  "format": "󰹑",
+  "tooltip": true,
+  // 使用 grim 区域截图并保存到指定目录
+  "on-click": "grim -g \"$(slurp)\" ~/Pictures/$(date +%s).png && notify-send '截图' '区域截图已保存'",
+
+// 使用 grim 全屏截图并保存到指定目录
+  "on-click-right": "grim ~/Pictures/$(date +%s).png && notify-send '截图' '全屏截图已保存'"
+},
+"custom/launcher": {
+  "format": "󰀻",  // 应用启动器图标
+  "tooltip": true,
+  "tooltip-format": "应用启动器\n点击打开 Fuzzel",
+  "on-click": "fuzzel",
+  "on-click-right": "fuzzel --dmenu",  // 纯文本模式
+  "on-click-middle": "fuzzel --show-actions"  // 显示操作菜单
+}
+
+}
+
+
